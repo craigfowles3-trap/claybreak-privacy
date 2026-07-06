@@ -58,6 +58,18 @@
   .disciplines { text-align: center; color: var(--muted); margin: 6px 0 8px; font-size: 1.05rem; }
   .disciplines strong { color: var(--ink); }
 
+  /* Top nav */
+  .topnav { display: flex; justify-content: flex-end; max-width: 880px; margin: 0 auto; padding: 18px 22px 0; }
+  .topnav a { font-weight: 600; font-size: 0.95rem; }
+
+  /* CTA button */
+  .btn {
+    display: inline-block; padding: 13px 26px; border-radius: 999px;
+    background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 1.05rem;
+  }
+  .btn:hover { text-decoration: none; opacity: 0.92; }
+  .btn-note { color: var(--muted); font-size: 0.92rem; margin-top: 10px; text-align: center; }
+
   /* Footer */
   footer { text-align: center; color: var(--muted); font-size: 0.92rem; padding: 48px 22px 64px; border-top: 1px solid var(--rule); margin-top: 48px; }
   footer a { margin: 0 10px; }
@@ -69,6 +81,8 @@
 </style>
 </head>
 <body>
+
+  <nav class="topnav"><a href="https://app.clayfowl.app">Sign in →</a></nav>
 
   <header class="hero">
     <div class="logo"><svg viewBox="0 0 512 512" width="54" height="54" role="img" aria-label="ClayFowl target logo"><circle cx="256" cy="256" r="232" fill="#9e4a28"/><circle cx="256" cy="256" r="198" fill="#f4f1ea"/><circle cx="256" cy="256" r="170" fill="#c2562a"/><circle cx="256" cy="256" r="134" fill="#f4f1ea"/><circle cx="256" cy="256" r="104" fill="#cb6b3f"/><circle cx="256" cy="256" r="60" fill="#f4f1ea"/></svg></div>
@@ -111,8 +125,8 @@
     </section>
 
     <section>
-      <h2>Going deeper <span style="font-size:0.62em;color:var(--muted);font-weight:600;letter-spacing:0;">· coming soon</span></h2>
-      <p class="lede">ClayFowl is free and complete on its own. Soon, <strong>ClayFowl&nbsp;Pro</strong> takes your range journal further.</p>
+      <h2>Going deeper <span style="font-size:0.62em;color:var(--muted);font-weight:600;letter-spacing:0;">· free while in beta</span></h2>
+      <p class="lede">ClayFowl is free and complete on its own. <strong>ClayFowl&nbsp;Pro</strong> takes your range journal further — on the web.</p>
       <div class="features">
         <div class="card">
           <div class="ico">📊</div>
@@ -125,6 +139,8 @@
           <p>An optional cloud backup keeps your journal in step on every device you shoot with.</p>
         </div>
       </div>
+      <p style="text-align:center;margin:22px 0 4px;"><a class="btn" href="https://app.clayfowl.app">Get ClayFowl Pro</a></p>
+      <p class="btn-note">Free while in beta — sign in with the same account you use in the ClayFowl app.</p>
     </section>
 
     <section>
@@ -175,6 +191,7 @@
   <footer>
     <div>© 2026 ClayFowl · Craig Fowles</div>
     <div style="margin-top:8px;">
+      <a href="https://app.clayfowl.app">Sign in</a>
       <a href="/privacy/">Privacy Policy</a>
       <a href="mailto:hello@clayfowl.app">Contact</a>
     </div>
