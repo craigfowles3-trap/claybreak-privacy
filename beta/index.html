@@ -71,6 +71,21 @@
     font-size: 1.02rem;
   }
   .step .go:hover { text-decoration: none; filter: brightness(1.06); }
+  .comeback { display: block; text-align: center; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+
+  /* Progress states: tapping a step's button marks it done; the first
+     not-done step is "next" so returning visitors see where they are. */
+  .step.next { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent); }
+  .step.done { opacity: 0.68; }
+  .step.done .num { background: #2e7d4f; font-size: 0; }
+  .step.done .num::after { content: '\2713'; font-size: 0.9rem; }
+  .step.done .go { background: var(--panel); color: var(--accent); border: 1.5px solid var(--accent); padding: 11.5px 16px; }
+  .alldone {
+    display: none; text-align: center; background: color-mix(in srgb, #2e7d4f 10%, var(--bg));
+    border: 1px solid color-mix(in srgb, #2e7d4f 35%, var(--rule)); border-radius: 14px;
+    padding: 16px 18px; margin: 14px 0; font-weight: 600;
+  }
+  .alldone.show { display: block; }
 
   .note {
     border-left: 3px solid var(--accent); background: var(--panel);
@@ -104,21 +119,24 @@
 
     <!-- ───────────────────────── Android ───────────────────────── -->
     <section class="steps" id="steps-android">
-      <div class="step">
+      <div class="step" data-step="a1">
         <span class="num">1</span><h3>Join the tester group</h3>
-        <p>Google only lets approved testers install the beta — joining this group approves you. One tap, uses the account already on your phone.</p>
-        <a class="go" href="https://groups.google.com/g/clayfowl-beta-testers">Join the tester group</a>
+        <p>Google only lets group members install the beta. One tap, using the Google account already on your phone.</p>
+        <a class="go" href="https://groups.google.com/g/clayfowl-beta-testers" target="_blank" rel="noopener" onclick="markDone('a1')">Join the tester group</a>
+        <span class="comeback">Opens in a new tab — come back here for step 2.</span>
       </div>
-      <div class="step">
+      <div class="step" data-step="a2">
         <span class="num">2</span><h3>Opt in as a tester</h3>
-        <p>Open this link and sign in with the same Google account that's on your phone, then tap the blue <strong>Become a tester</strong> button.</p>
-        <a class="go" href="https://play.google.com/apps/testing/app.claybreak">Opt in as a tester</a>
+        <p>Sign in with that same Google account, then tap the blue <strong>Become a tester</strong> button.</p>
+        <a class="go" href="https://play.google.com/apps/testing/app.claybreak" target="_blank" rel="noopener" onclick="markDone('a2')">Opt in as a tester</a>
+        <span class="comeback">Opens in a new tab — come back here for step 3.</span>
       </div>
-      <div class="step">
+      <div class="step" data-step="a3">
         <span class="num">3</span><h3>Install ClayFowl</h3>
-        <p>On that same confirmation page, tap <strong>Download it on Google Play</strong>, then <strong>Install</strong>. If Google Play says it isn't available yet, that's normal — give it about 15 minutes and open the link again. Tester access takes a little while to sync.</p>
-        <a class="go" href="https://play.google.com/store/apps/details?id=app.claybreak">Open in Google Play</a>
+        <p>Tap <strong>Install</strong> on Google Play. Says it isn't available yet? Normal — tester access takes ~15 minutes to sync. Try the link again after.</p>
+        <a class="go" href="https://play.google.com/store/apps/details?id=app.claybreak" target="_blank" rel="noopener" onclick="markDone('a3')">Open in Google Play</a>
       </div>
+      <div class="alldone" id="alldone-android">🎉 You're all set — you're officially a tester. Thank you!</div>
       <div class="note">
         <strong>The single biggest way you help: keep it installed for at least 2&nbsp;weeks.</strong>
         Google requires testers to stay enrolled for 14 straight days before the app can launch publicly.
@@ -128,16 +146,18 @@
 
     <!-- ───────────────────────── iPhone ───────────────────────── -->
     <section class="steps" id="steps-ios">
-      <div class="step">
+      <div class="step" data-step="i1">
         <span class="num">1</span><h3>Get TestFlight</h3>
-        <p>TestFlight is Apple's official app for trying betas. Free, from the App Store.</p>
-        <a class="go" href="https://apps.apple.com/app/testflight/id899247664">Get TestFlight</a>
+        <p>Apple's official beta app. Free, from the App Store. Already have it? Skip to step 2.</p>
+        <a class="go" href="https://apps.apple.com/app/testflight/id899247664" target="_blank" rel="noopener" onclick="markDone('i1')">Get TestFlight</a>
+        <span class="comeback">Opens in a new tab — come back here for step 2.</span>
       </div>
-      <div class="step">
+      <div class="step" data-step="i2">
         <span class="num">2</span><h3>Install the ClayFowl beta</h3>
-        <p>Open this invite and tap Accept, then Install.</p>
-        <a class="go" href="https://testflight.apple.com/join/jPKp9XS7">Join the ClayFowl beta</a>
+        <p>Open the invite, tap <strong>Accept</strong>, then <strong>Install</strong>.</p>
+        <a class="go" href="https://testflight.apple.com/join/jPKp9XS7" target="_blank" rel="noopener" onclick="markDone('i2')">Join the ClayFowl beta</a>
       </div>
+      <div class="alldone" id="alldone-ios">🎉 You're all set — you're officially a tester. Thank you!</div>
       <div class="note">
         <strong>That's it.</strong> Poke around, and if you shoot, log a round for real.
         Anything confusing or broken — screenshots welcome — helps more than you'd think.
@@ -162,6 +182,28 @@
   </footer>
 
 <script>
+  function markDone(id) {
+    try { localStorage.setItem('cf-step-' + id, '1'); } catch (e) {}
+    render();
+  }
+  function isDone(id) {
+    try { return localStorage.getItem('cf-step-' + id) === '1'; } catch (e) { return false; }
+  }
+  function render() {
+    document.querySelectorAll('.steps').forEach(function (sec) {
+      var nextFound = false, allDone = true;
+      sec.querySelectorAll('.step[data-step]').forEach(function (el) {
+        var done = isDone(el.dataset.step);
+        el.classList.toggle('done', done);
+        if (!done) { allDone = false; }
+        var isNext = !done && !nextFound;
+        if (isNext) { nextFound = true; }
+        el.classList.toggle('next', isNext);
+      });
+      var banner = sec.querySelector('.alldone');
+      if (banner) { banner.classList.toggle('show', allDone); }
+    });
+  }
   function show(which) {
     document.getElementById('steps-android').classList.toggle('active', which === 'android');
     document.getElementById('steps-ios').classList.toggle('active', which === 'ios');
@@ -172,6 +214,7 @@
   // matters most) on desktop or anything unrecognized.
   var ua = navigator.userAgent;
   show(/iPhone|iPad|iPod/i.test(ua) ? 'ios' : 'android');
+  render();
 </script>
 
 </body>
